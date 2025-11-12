@@ -45,20 +45,15 @@ y devuelve el título y las ganancias de la película con mayores ganancias, de 
  sin importar sus géneros. Las ganancias de una película se calculan como la diferencia entre la recaudación y el presupuesto.
 
 """
-def peliculas_mas_ganancias(registros:list[Pelicula], genero:str | None)->tuple[str,int]:
+def peliculas_mas_ganancias(registros:list[Pelicula], genero:str|None)->tuple[str,int]:
     lista_ganancias=[]
-    if genero!=None:
-        for r in registros:
-            if r.generos==genero:
-                ganancias=r.recaudacion-r.presupuesto
-                lista_ganancias.append((r.titulo,ganancias))
-            
-    else:
-        for r in registros:
-            ganancias=r.recaudacion-r.presupuesto
-            lista_ganancias.append((r.titulo, ganancias))
-    maximo= max(lista_ganancias, key=lambda x:x[1])
-    return maximo
+    for r in registros:
+        if genero ==None:
+            lista_ganancias.append((r.titulo, r.recaudacion - r.presupuesto))
+        else:
+            if r.generos == genero:
+                lista_ganancias.append((r.titulo, r.recaudacion - r.presupuesto))
+    return max(lista_ganancias, key=lambda x: x[1])
 """
 `media_presupuesto_por_genero`: recibe una lista de tuplas de tipo `Pelicula` y devuelve un diccionario en el que 
 las claves son los distintos géneros y los valores son la media de presupuesto de las películas de cada género.
@@ -70,7 +65,7 @@ def media_presupuesto_por_genero(registros:list[Pelicula])->dict[str,float]:
     for r in registros:
         for genero in r.generos:
             if genero not in diccionario:
-                diccionario[genero] = [0, 0]  # [suma, cantidad]
+                diccionario[genero] = [0, 0]  #[suma, cantidad]
             diccionario[genero][0] += r.presupuesto
             diccionario[genero][1] += 1
 
@@ -111,14 +106,13 @@ def actores_mas_frecuentes(registros:list[Pelicula], n:int, año_inicial:int|Non
     return lista_actores
 
 """
-`recaudacion_total_por_año`: recibe una lista de tuplas de tipo `Pelicula` y un conjunto de cadenas de texto `generos`, 
-con valor por defecto `None`, y devuelve un diccionario en el que las claves son los años en los que se han estrenado películas,
+recaudacion_total_por_año: recibe una lista de tuplas de tipo Pelicula y un conjunto de cadenas de texto generos, 
+con valor por defecto None, y devuelve un diccionario en el que las claves son los años en los que se han estrenado películas,
  y los valores son la recaudación total de las películas estrenadas en cada año que son de alguno de los géneros contenidos en el 
  parámetro `generos`. Si `generos` es None, se calcularán las recaudaciones totales de todas las películas de cada año,
    independientemente de su género.
  NOTA: Puede usar operaciones entre conjuntos para ver si existe alguna coincidencia entre los géneros de cada película y 
  los géneros especificados por el parámetro.
-
 """     
 def recaudacion_total_por_año(registros: list[Pelicula], generos: set[str] | None) -> dict[int, float]:
     diccionario=defaultdict(float)
@@ -140,8 +134,6 @@ incrementos_recaudacion_por_año`: recibe una lista de tuplas de tipo `Pelicula`
      Si `generos` es None, se usarán para el cálculo las recaudaciones totales de todas las películas 
      de cada año, independientemente de su género. Haga uso de la función `recaudacion_total_por_año` 
      para implementar esta función. 
-
-
 """
 def incrementos_recaudacion_por_año(registros:list[Pelicula],generos:set[str]|None)->list[int]:
     diccionario_recaudacion_año=recaudacion_total_por_año(registros, generos)

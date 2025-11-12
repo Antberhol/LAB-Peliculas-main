@@ -32,17 +32,19 @@ y devuelve el título y las ganancias de la película con mayores ganancias, de 
 
 
 """
-def pelicula_mas_ganancias(registros:list[Pelicula], genero:str|None)->tuple[str,int]:
+def peliculas_mas_ganancias(registros:list[Pelicula], genero:str|None)->tuple[str,int]:
     lista_ganancias=[]
-    if genero==None:
-        for r in registros:
-            lista_ganancias.append((r.titulo,r.recaudacion-r.presupuesto))       
-    else:
-        for r in registros:
-            if r.generos==genero:
-                lista_ganancias.append((r.titulo,r.recaudacion-r.presupuesto))
-                
-    return max(lista_ganancias,key=lambda x:x[1])
+    for r in registros:
+        if genero ==None:
+            lista_ganancias.append((r.titulo, r.recaudacion - r.presupuesto))
+        else:
+            if r.generos == genero:
+                lista_ganancias.append((r.titulo, r.recaudacion - r.presupuesto))
+    return max(lista_ganancias, key=lambda x: x[1])
+
+
+
+
 
 
 """

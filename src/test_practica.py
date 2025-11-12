@@ -11,7 +11,7 @@ def test_peliculas_por_actor():
     """
 def test_pelis_mas_ganancias():
     datos=leer_peliculas("./data/peliculas.csv")
-    print("las peliculas con mas ganancias son:", pelicula_mas_ganancias(datos, {"Drama"}))
+    print("las peliculas con mas ganancias son:", peliculas_mas_ganancias(datos, "Drama"))
 
 def test_media_presupuesto_por_genero():
     datos=leer_peliculas("./data/peliculas.csv")
