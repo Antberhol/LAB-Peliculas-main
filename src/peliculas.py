@@ -5,6 +5,27 @@ from collections import defaultdict
 
 Pelicula = NamedTuple("Pelicula",[("fecha_estreno", date), ("titulo", str), ("director", str), ("generos", list[str]),("duracion", int),
     ("presupuesto", int), ("recaudacion", int), ("reparto", list[str])])    
+
+def leer_peliculas(registros:str)->list[Pelicula]:
+    lista=[]
+    with open(registros, encoding='utf-8') as f:
+        lector=csv.reader(f, delimiter=';')
+        next(lector)
+        for fecha_estreno,titulo,director,generos,duracion,presupuesto,recaudacion,reparto in lector:
+            fecha_estreno=datetime.strptime(fecha_estreno, "%d/%m/%Y").date()
+            generos=parsea_generos(generos) 
+            for cadena in generos:
+                cadena.strip()
+            duracion=int(duracion)
+            presupuesto=int(presupuesto)
+            recaudacion=int(recaudacion)
+            reparto=parsea_repartos(reparto)
+            reparto=[r.strip() for r in reparto]
+            r=Pelicula(fecha_estreno, titulo,director,generos,duracion,presupuesto,recaudacion,reparto)
+            lista.append(r)
+    return lista
+
+
 def parsea_generos(generos:str)->list[str]:
     lista_generos=[]
     for r in generos:
@@ -17,6 +38,7 @@ def parsea_repartos(reparto:str)->list[str]:
         lista_reparto=r.split(',')
     return lista_reparto
 """
+
 recibe una lista de tuplas de tipo `Pelicula` y una cadena de texto `genero`, con valor por defecto `None`, 
 y devuelve el título y las ganancias de la película con mayores ganancias, de entre aquellas películas que tienen entre
  sus géneros el `genero` indicado. Si el parámetro `genero` es `None`, se busca la película con mayores ganancias,
